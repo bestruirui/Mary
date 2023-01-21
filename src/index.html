@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="en" class="no-js" data-page="block">
+<head>
+    <meta charset="utf-8">
+    <title>Burokku • Block • Bloc</title>
+    <meta name="description" content="Sorry, but your surprise is in another castle. 🏰">
+    <meta name="keywords" content="hatena burokku, mario, block, interrogation, jump, sunappu, nintendo">
+
+    <meta name="viewport" content="width=device-width, maximum-scale=1, viewport-fit=cover">
+    <meta name="supported-color-schemes" content="dark light only"> <!-- macOS 10.14.4 compat -->
+    <meta name="color-scheme" content="dark light only">
+
+    <!-- Detect IndexedDB availability. -->
+    <!-- Documentation: src/js/helpers/StorageDetect.js -->
+    <!-- Declaring globals here prevents their renaming at compile time. -->
+    <script>
+      let idbAvailable = false
+      let idbAvailabilityDetected = false
+    </script>
+    <script src="/js/helpers/Storage/idbDetect.js"></script>
+
+    <script type="module" src="/js/burokku.js"></script>
+    <link rel="stylesheet" href="/sass/block.scss">
+
+    <!-- Web  Manifest -->
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" media="(prefers-color-scheme: light)" sizes="16x16" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" media="(prefers-color-scheme: light)" sizes="32x32" href="/favicon-16x16.png">
+    <link rel="icon" type="image/png" media="(prefers-color-scheme: dark)" sizes="16x16" href="/favicon-32x32-original.png">
+    <link rel="icon" type="image/png" media="(prefers-color-scheme: dark)" sizes="32x32" href="/favicon-16x16-original.png">
+    <link rel="icon" type="image/svg+xml" media="(prefers-color-scheme: light)" href="/favicon.svg">
+    <link rel="icon" type="image/svg+xml" media="(prefers-color-scheme: dark)" href="/favicon-original.svg">
+    <link rel="mask-icon" media="(prefers-color-scheme: light)" href="/safari-pinned-tab.svg" color="#2e2e2e">
+    <link rel="mask-icon" media="(prefers-color-scheme: dark)" href="/safari-pinned-tab.svg" color="#8a1000">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Sunappu ⍰">
+    <meta name="application-name" content="Sunappu ⍰">
+    <meta name="msapplication-TileColor" content="#2e2e2e">
+    <meta name="theme-color" content="#2e2e2e" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#ebebeb" media="(prefers-color-scheme: light)">
+
+    <!-- Sharing -->
+    <meta property="og:site_name" content="Burokku • Block • Bloc">
+    <meta property="og:title" content="Burokku • Block • Bloc">
+    <meta property="og:description" content="Sorry, but your surprise is in another castle. 🏰">
+    <meta property="og:url" content="https://block.sunappu.net">
+    <meta property="og:locale" content="en_GB">
+    <meta property="og:image" content="/android-chrome-512x512.png">
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="512">
+    <meta property="og:image:height" content="512">
+    <meta property="og:image:alt" content="Burokku • Block • Bloc">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@sunappu_kun">
+    <meta name="twitter:creator" content="@meduzen">
+    <meta name="twitter:image" content="https://block.sunappu.net/android-chrome-512x512.png">
+</head>
+
+<body class="noselect">
+
+    <noscript>
+        <p class="noscript | flex-center">Want some gold? Turn on JavaScript.</p>
+    </noscript>
+
+    <main>
+
+        <h1 class="visually-hidden">⍰</h1>
+
+        <!-- Top bar : score and PWA install -->
+
+        <div class="block__bar | flex-center">
+
+            <!-- Coin amount -->
+            <section id="wallet" class="block__wallet wallet | flex-center">
+                <svg width="15" height="21" class="coin wallet__icon" id="wallet-coin" aria-hidden="true">
+                    <use xlink:href="#coin-smb-path" id="wallet-coin-use"/>
+                </svg>
+                <output id="coins" class="wallet__amount | monospace"></output>
+            </section>
+
+            <!-- PWA install -->
+            <button class="app-install cta cta--small" id="sw-install" type="button">Install</button>
+        </div>
+
+        <div class="blocks" id="blocks">
+
+            <!-- ⍰ SMB -->
+
+            <button id="smb" data-game="Super Burokku Bros." class="block ⍰-ctn | flex-center" type="button" autofocus>
+                <span class="visually-hidden">Jump!</span>
+                <span class="⍰__inner | flex-center">
+                    <!-- ⍰ -->
+                    <svg viewBox="0 0 512 512" width="21" height="21" class="block__⍰ ⍰" aria-hidden="true">
+                        <style>
+                        .⍰ {
+                            --⍰-background: var(--⍰-bg, hsl(0, 0%, 86%));
+                            --⍰-color: var(--⍰-primary, hsl(0, 0%, 46%));
+                            --⍰-light-off: var(--⍰-dark, hsl(0, 0%, 31%));
+                            --⍰-anim: var(--⍰-animation, ⍰-wink);
+                        }
+
+                        .⍰-color {
+                            fill: var(--⍰-color);
+                        }
+
+                        .⍰-bg {
+                            fill: var(--⍰-background);
+                            animation: var(--⍰-anim) 5s steps(1, end) infinite;
+                        }
+
+                        @keyframes ⍰-wink {
+                            43% { fill: var(--⍰-background); }
+
+                            47% { fill: var(--⍰-color); }
+
+                            50% { fill: var(--⍰-light-off); }
+
+                            53% { fill: var(--⍰-color); }
+
+                            56% { fill: var(--⍰-background); }
+                        }
+                        </style>
+                        <rect y="32" width="512" height="480" />
+                        <rect x="32" y="32" width="448" height="448" class="⍰-bg" />
+                        <rect x="64" y="416" width="32" height="32" />
+                        <rect x="416" y="416" width="32" height="32" />
+                        <rect x="64" y="64" width="32" height="32" />
+                        <rect x="416" y="64" width="32" height="32" />
+                        <rect x="256" y="384" width="64" height="64" />
+                        <path d="M160 160v96h64v-96h96v96h-32v32h-32v64h64v-64h64V160h-32v-32H192v32h-32z" />
+                        <g class="⍰-color">
+                            <rect y="32" width="32" height="448" />
+                            <rect x="32" width="448" height="32" />
+                            <rect x="224" y="352" width="64" height="64" />
+                            <path d="M128 128v96h64v-96h96v96h-32v32h-32v64h64v-64h64V128h-32V96H160v32h-32z" />
+                        </g>
+                    </svg>
+
+                    <!-- Coins -->
+                    <span class="⍰__coin-ctn | flex-center">
+                        <svg width="15" height="21" class="coin block__coin" aria-hidden="true">
+                            <use xlink:href="#coin-smb-path"/>
+                        </svg>
+                    </span>
+                    <span class="⍰__coin-ctn | flex-center">
+                        <svg width="15" height="21" class="coin block__coin" aria-hidden="true">
+                            <use xlink:href="#coin-smb-path"/>
+                        </svg>
+                    </span>
+                    <span class="⍰__coin-ctn | flex-center">
+                        <svg width="15" height="21" class="coin block__coin" aria-hidden="true">
+                            <use xlink:href="#coin-smb-path"/>
+                        </svg>
+                    </span>
+                    <span class="⍰__coin-ctn | flex-center">
+                        <svg width="15" height="21" class="coin block__coin" aria-hidden="true">
+                            <use xlink:href="#coin-smb-path"/>
+                        </svg>
+                    </span>
+                    <span class="⍰__coin-ctn | flex-center">
+                        <svg width="15" height="21" class="coin block__coin" aria-hidden="true">
+                            <use xlink:href="#coin-smb-path"/>
+                        </svg>
+                    </span>
+                </span>
+            </button>
+
+        </div>
+
+        <div id="backlog" style="display: none;">
+
+            <!-- ⍰ SMB 3 -->
+
+            <button id="smb3" data-game="Super Burokku Bros. 3" class="block ⍰-ctn | flex-center" type="button">
+                <span class="visually-hidden">Jump!</span>
+                <span class="⍰__inner | flex-center">
+
+                    <!-- ⍰ -->
+                    <svg viewBox="0 0 512 512" width="21" height="21" fill="none" class="block__⍰ ⍰-smb3" aria-hidden="true">
+                        <style>
+                        .⍰-sign {
+                            animation: var(--⍰-smb3-animation, ⍰-smb3-wink) 1.7s steps(2, end) infinite;
+                        }
+
+                        .⍰-sign--two { animation-delay: -.85s; }
+
+                        @keyframes ⍰-smb3-wink {
+                            0% { transform: translate(-100%, 0); }
+                            25% { transform: translate(-50%, 0); }
+                            50% { transform: translate(0%, 0); }
+                            75% { transform: translate(50%, 0); }
+                            100% { transform: translate(100%, 0); }
+                        }
+                        </style>
+
+                        <!-- Backgrounds -->
+                        <rect x="32" y="32" width="448" height="448" fill="#ea9e22"/>
+                        <rect x="32" y="32" width="448" height="32" fill="#ffccc5"/>
+                        <rect x="32" y="64" width="32" height="416" fill="#ffccc5"/>
+
+                        <!-- Screws -->
+                        <g fill="#000">
+                            <rect x="64" y="416" width="32" height="32"/>
+                            <rect x="416" y="416" width="32" height="32"/>
+                            <rect x="64" y="64" width="32" height="32"/>
+                            <rect x="416" y="64" width="32" height="32"/>
+                        </g>
+
+                        <!-- ⍰ + mask -->
+                        <defs>
+                            <clipPath id="hatena-clip">
+                                <rect x="32" y="32" width="448" height="448"/>
+                            </clipPath>
+                            <g id="hatena-path">
+                                <path d="M160 160h-32v64h96v-32h96v64h-96v64h96v-32h64v-32h32v-96h-32v-32H160v32z" fill="#000"/>
+                                <rect x="224" y="352" width="96" height="64" fill="#000"/>
+                                <path d="M128 128H96v64h96v-32h96v64h-96v64h96v-32h64v-32h32v-96h-32V96H128v32z" fill="#ffccc5"/>
+                                <rect x="192" y="320" width="96" height="64" fill="#ffccc5"/>
+                            </g>
+                        </defs>
+                        <g clip-path="url(#hatena-clip)">
+                            <use xlink:href="#hatena-path" id="hatena-one" class="⍰-sign"/>
+                            <use xlink:href="#hatena-path" id="hatena-two" class="⍰-sign ⍰-sign--two"/>
+                        </g>
+
+                        <!-- Outline -->
+                        <rect x="16" y="16" width="480" height="480" stroke="#000" stroke-width="32"/>
+                    </svg>
+
+                    <!-- Coins -->
+                    <span class="⍰__coin-ctn | flex-center">
+                        <svg width="18" height="21" class="coin block__coin" aria-hidden="true">
+                            <use xlink:href="#coin-smb3-path"/>
+                        </svg>
+                    </span>
+                    <span class="⍰__coin-ctn | flex-center">
+                        <svg width="18" height="21" class="coin block__coin" aria-hidden="true">
+                            <use xlink:href="#coin-smb3-path"/>
+                        </svg>
+                    </span>
+                    <span class="⍰__coin-ctn | flex-center">
+                        <svg width="18" height="21" class="coin block__coin" aria-hidden="true">
+                            <use xlink:href="#coin-smb3-path"/>
+                        </svg>
+                    </span>
+                    <span class="⍰__coin-ctn | flex-center">
+                        <svg width="18" height="21" class="coin block__coin" aria-hidden="true">
+                            <use xlink:href="#coin-smb3-path"/>
+                        </svg>
+                    </span>
+                    <span class="⍰__coin-ctn | flex-center">
+                        <svg width="18" height="21" class="coin block__coin" aria-hidden="true">
+                            <use xlink:href="#coin-smb3-path"/>
+                        </svg>
+                    </span>
+                </span>
+            </button>
+
+            <!-- ⍰ SMW -->
+
+            <button id="smw" data-game="Super Burokku World" class="block ⍰-ctn | flex-center" type="button">
+                <span class="visually-hidden">Jump!</span>
+                <span class="⍰__inner | flex-center">
+
+                    <!-- ⍰ -->
+                    <svg viewBox="0 0 512 512" width="21" height="21" fill="none" class="block__⍰ ⍰-smw" aria-hidden="true">
+                        <style>
+                        .⍰-sign {
+                            animation: var(--⍰-smb3-animation, ⍰-smb3-wink) 1.7s steps(2, end) infinite;
+                        }
+
+                        .⍰-sign--two { animation-delay: -.85s; }
+
+                        @keyframes ⍰-smb3-wink {
+                            0% { transform: translate(-100%, 0); }
+                            25% { transform: translate(-50%, 0); }
+                            50% { transform: translate(0%, 0); }
+                            75% { transform: translate(50%, 0); }
+                            100% { transform: translate(100%, 0); }
+                        }
+                        </style>
+
+                        <!-- Outline -->
+                        <path fill="#000" d="M32 64H0v384h32v32h32v32h384v-32h32v-32h32V64h-32V32h-32V0H64v32H32v32z"/>
+
+                        <!-- Backgrounds -->
+                        <path fill="#885818" d="M32 416v32h32v32h384v-32h32V64h-32V32h-32v384H32z"/>
+                        <path fill="#d8a038" d="M64 416v32h352v-32h32V64h-32V32H64v32H32v352h32z"/>
+                        <path fill="#f8d820" d="M64 96v288h32v32h288v-32h32V96h-32V64H96v32H64z"/>
+
+                        <!-- Glow -->
+                        <path fill="#e8f0f8" d="M32 192h32v32H32z"/>
+                        <path fill="#e8f0f8" d="M64 160H32V64h32V32h96v32H96v32H64v64z"/>
+
+                        <!-- Eyes -->
+                        <path fill="#000" d="M160 160h32v128h-32z"/>
+                        <path fill="#000" d="M320 160h32v128h-32z"/>
+
+                        <!-- ⍰ + mask -->
+                        <defs>
+                            <clipPath id="hatena-smw-clip">
+                                <rect x="32" y="32" width="448" height="448"/>
+                            </clipPath>
+                            <g id="hatena-smw-path">
+                                <path fill="#000" d="M64 128v64h32v32h64v64h32v32h-32v64h32v32h96v-32h32v-64h-32v-32h64v-32h32v-32h32v-96h-32V96h-32V64H128v32H96v32H64z"/>
+                                <path fill="#e8f0f8" d="M192 320h96v64h-96z"/>
+                                <path fill="#e8f0f8" d="M96 128v64h96v-32h96v64h-96v64h96v-32h64v-32h32v-96h-32V96H128v32H96z"/>
+                            </g>
+                        </defs>
+                        <g clip-path="url(#hatena-smw-clip)">
+                            <use xlink:href="#hatena-smw-path" id="hatena-smw-one" class="⍰-sign"/>
+                            <use xlink:href="#hatena-smw-path" id="hatena-smw-two" class="⍰-sign ⍰-sign--two"/>
+                        </g>
+                    </svg>
+
+                    <!-- Coins -->
+                    <span class="⍰__coin-ctn | flex-center">
+                        <svg width="15" height="21" class="coin block__coin" aria-hidden="true">
+                            <use xlink:href="#coin-smw-path"/>
+                        </svg>
+                    </span>
+                    <span class="⍰__coin-ctn | flex-center">
+                        <svg width="15" height="21" class="coin block__coin" aria-hidden="true">
+                            <use xlink:href="#coin-smw-path"/>
+                        </svg>
+                    </span>
+                    <span class="⍰__coin-ctn | flex-center">
+                        <svg width="15" height="21" class="coin block__coin" aria-hidden="true">
+                            <use xlink:href="#coin-smw-path"/>
+                        </svg>
+                    </span>
+                    <span class="⍰__coin-ctn | flex-center">
+                        <svg width="15" height="21" class="coin block__coin" aria-hidden="true">
+                            <use xlink:href="#coin-smw-path"/>
+                        </svg>
+                    </span>
+                    <span class="⍰__coin-ctn | flex-center">
+                        <svg width="15" height="21" class="coin block__coin" aria-hidden="true">
+                            <use xlink:href="#coin-smw-path"/>
+                        </svg>
+                    </span>
+                </span>
+            </button>
+
+        </div>
+
+        <!-- Game switcher -->
+
+        <nav class="arrows" id="nav">
+            <button class="arrow arrow--prev" type="button" data-dir="-1" disabled>
+                <span class="visually-hidden">Previous Mario theme</span>
+                <svg width="6" height="11" class="arrow__svg" aria-hidden="true">
+                    <use xlink:href="#arrow-path"/>
+                </svg>
+            </button>
+            <button class="arrow arrow--next" type="button" data-dir="1" disabled>
+                <span class="visually-hidden">Next Mario theme</span>
+                <svg width="6" height="11" class="arrow__svg" aria-hidden="true">
+                    <use xlink:href="#arrow-path"/>
+                </svg>
+            </button>
+        </nav>
+
+        <div class="settings | flex-center">
+
+            <!-- Rumble control -->
+
+            <button class="setting setting--on setting--not-supported" id="rumble" type="button" title="Disable vibrations">
+                <span class="visually-hidden" id="rumble-label">Disable vibrations</span>
+
+                <!-- Icon inspired from https://github.com/tabler/tabler-icons / device-mobile-vibration -->
+                <svg
+                    viewBox="0 0 30 26" width="23" height="20"
+                    fill="none" stroke="currentColor"
+                    stroke-width="2.67" stroke-linecap="round"
+                    aria-hidden="true"
+                >
+                    <style>
+                        .setting--on .rumble__cross { display: none; }
+                    </style>
+                    <path d="M20.33 2.33H9.67c-.74 0-1.34.6-1.34 1.34v18.66c0 .74.6 1.34 1.34 1.34h10.66c.74 0 1.34-.6 1.34-1.34V3.67c0-.74-.6-1.34-1.34-1.34Z"/>
+                    <path d="M15 19.67v.01"/>
+                    <path d="M28.67 5 26 9l2.67 4L26 17l2.67 4"/>
+                    <path d="M1.33 5 4 9l-2.67 4L4 17l-2.67 4"/>
+                    <line class="rumble__cross" x1="1.5" y1="24.5" x2="28.11" y2="1.5" />
+                  </svg>
+            </button>
+
+            <!-- Sound control -->
+
+            <button class="setting setting--on" id="sound" type="button" title="Mute">
+                <span class="visually-hidden" id="sound-label">Mute</span>
+                <svg
+                    viewBox="0 0 30 25" width="24" height="20"
+                    fill="none" stroke="currentColor"
+                    stroke-width="2.67" stroke-linecap="round"
+                    aria-hidden="true"
+                >
+                    <style>
+                        .setting--on .sound__cross { display: none; }
+                        .setting:not(.setting--on) .sound__wave { display: none; }
+                    </style>
+                    <path d="M2 16.61V8.72c0-.77.6-1.39 1.33-1.39h4.78a1.3 1.3 0 00.95-.4l4-4.52c.84-.88 2.27-.26 2.27.98v18.55c0 1.25-1.45 1.86-2.28.97l-4-4.5A1.3 1.3 0 008.1 18H3.33C2.6 18 2 17.38 2 16.61z"/>
+                    <g class="sound__wave">
+                        <path d="M20.67 8c1.77 2.37 1.77 6.96 0 9.33"/>
+                        <path d="M24.67 3.33a12.89 12.89 0 010 18.67"/>
+                    </g>
+                    <path class="sound__cross" d="M20.33 16.67l8-8m0 8l-8-8"/>
+                </svg>
+            </button>
+        </div>
+
+    </main>
+
+    <!-- Links -->
+
+    <footer class="footer">
+        <a class="footer__link" href="https://github.com/sunappu-dojo/burokku" target="_blank" rel="noopener" title="Source code">
+            <svg class="footer__svg footer__svg--code" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                <path d="M8.3 6.3L2.6 12l5.7 5.7 1.4-1.4L5.4 12l4.3-4.3zm7.4 11.4l5.7-5.7-5.7-5.7-1.4 1.4 4.3 4.3-4.3 4.3z"/>
+            </svg>
+        </a>
+        <a class="footer__link" href="https://m.nintendojo.fr/@sunappu" target="_blank" rel="noopener" title="Sunappu on Mastodon">
+            <svg class="footer__svg footer__svg--mastodon" width="13" height="14">
+                <use xlink:href="#mastodon-path"/>
+            </svg>
+        </a>
+    </footer>
+
+    <!-- SVG spritesheet -->
+    <svg style="display: none;">
+
+        <!-- Coins -->
+        <symbol id="coin-smb-path" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 366 512" fill="none">
+            <style>
+            .coin { color: hsl(0, 0%, 0%); }
+            .coin-color { fill: hsl(0, 56%, 52%) }
+            .coin-bg { fill: hsl(28, 100%, 61%) }
+            </style>
+            <path d="M109 109H73v294h36v73h37v36h146v-36h37v-73l37-1V109h-37V37h-37V0H146v36h-37v73z" fill="currentColor" />
+            <path d="M37 109H0v294h37v73h36v36h147v-36h37v-73l36-1V109h-36V37h-37V0H73v36H37v73z" class="coin-bg" />
+            <rect x="110" y="403" width="73.3" height="36" fill="currentColor" />
+            <rect x="183" y="109" width="36" height="293.3" fill="currentColor" />
+            <rect x="74" y="109" width="36" height="293.3" class="coin-color" />
+            <rect x="110" y="73" width="73.3" height="36" class="coin-color" />
+        </symbol>
+
+        <symbol id="coin-smb3-path" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+            <path d="M0 128v256h32v64h32v32h64v32h192v-32h64v-32h32v-64h32V128h-32V64h-32V32h-64V0H128v32H64v32H32v64H0z"/>
+            <path fill="#ffccc5" d="M64 160H32v192h32v64h32v32h160V32h-96v32H96v32H64v64z"/>
+            <path fill="#ea9e22" d="M96 160H64v192h32v64h32v32h32v32h96v-32h64v-32h32v-64h32V160h-32V96h-32V64H160v32H96v64z"/>
+            <path d="M160 96h128v320H160z"/>
+            <path fill="#ea9e22" d="M192 128h64v256h-64z"/>
+            <path fill="none" stroke="#ffccc5" stroke-width="32" d="M176 384V112h80"/>
+        </symbol>
+
+        <symbol id="coin-smw-path" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+            <path d="M32 128H0v256h32v64h32v32h64v32h128v-32h64v-32h32v-64h32V128h-32V64h-32V32h-64V0H128v32H64v32H32v64z"/>
+            <path fill="#d8a038" d="M128 64v416h128v-32h64v-64h32V128h-32V64H128z"/>
+            <path fill="#f8d820" d="M96 128H64v320h192v-32h32v-32h32V128h-32V64H128v32H96v32z"/>
+            <path fill="#f8f800" d="M96 128v288h160v-32h32V128h-32V96H128v32H96z"/>
+            <path fill="#f8d820" d="M192 128h32v256h-64v-64h32V128z"/>
+            <path d="M160 384h64v32h-64zM224 128h32v256h-32z"/>
+            <path fill="#e8f0f8" d="M128 128h32v256h-32zM160 96h64v32h-64zM128 32h128v32H128zM32 128h32v256H32zM128 64H64v64h32V96h32V64z"/>
+        </symbol>
+
+        <!-- Mastodon -->
+        <symbol id="mastodon-path" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 24" fill="currentColor" fill-rule="evenodd">
+            <path d="M15.68 18.293c2.954-.359 5.528-2.213 5.85-3.905h.002c.509-2.667.467-6.509.467-6.509 0-5.206-3.352-6.732-3.352-6.732C16.956.357 14.054.025 11.039 0h-.075C7.95.025 5.05.357 3.358 1.147c0 0-3.352 1.526-3.352 6.732l-.003.998c-.005.959-.01 2.022.018 3.132.122 5.09.918 10.108 5.543 11.356 2.133.574 3.965.695 5.44.612 2.675-.152 4.176-.972 4.176-.972l-.088-1.974s-1.913.613-4.058.538c-2.127-.074-4.373-.234-4.717-2.89a5.587 5.587 0 01-.047-.745s2.088.518 4.733.642c1.618.076 3.136-.097 4.676-.283zm2.365-3.705V8.284c0-1.29-.323-2.313-.97-3.07-.668-.758-1.542-1.146-2.628-1.146-1.256 0-2.207.49-2.836 1.473l-.612 1.043-.61-1.043c-.63-.982-1.58-1.473-2.836-1.473-1.086 0-1.962.388-2.628 1.146-.648.757-.971 1.78-.971 3.07v6.304h2.455v-6.12c0-1.289.533-1.944 1.6-1.944 1.18 0 1.77.777 1.77 2.312v3.35h2.44v-3.35c0-1.536.592-2.312 1.772-2.312 1.066 0 1.6.655 1.6 1.945v6.119h2.454z"/>
+        </symbol>
+
+        <!-- Arrow -->
+        <symbol id="arrow-path" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 33" fill="none">
+            <path d="M16.5 1.5l-15 15 15 15" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        </symbol>
+
+    </svg>
+
+    <!-- Matomo -->
+    <img class="visually-hidden" src="https://matomo.mehdi.cc/piwik.php?idsite=2&amp;rec=1" style="border:0" alt="" />
+</body>
+
+</html>

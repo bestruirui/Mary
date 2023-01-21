@@ -1,0 +1,23 @@
+.⍰-ctn {
+  &:hover,
+  &:focus {
+    outline: none;
+  }
+}
+
+.⍰__inner {
+  padding: calc(var(--⍰-size) / 2);
+
+  @media (--no-motion) {
+    --⍰-animation: none;
+    --⍰-smb3-animation: none;
+  }
+
+  .⍰--hit & {
+    animation: ⍰-hit .2s;
+
+    // Inner animation of the blocks
+    --⍰-animation: none;
+    --⍰-smb3-animation: none;
+  }
+}

@@ -1,0 +1,17 @@
+.wallet {
+  &:not(.wallet--on) {
+    display: none;
+  }
+}
+
+.wallet__icon {
+  size: auto .6em;
+  padding-inline-end: .25em;
+}
+
+.wallet__amount {
+  &::before {
+    content: '×';
+    margin-inline-end: .12em;
+  }
+}
