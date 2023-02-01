@@ -13,7 +13,7 @@
     },
     "dependencies": {
         "easings.scss": "^1",
-        "idb-keyval": "6.1.0",
+        "idb-keyval": "6.2.0",
         "normalize.css": "^8.0"
     },
     "devDependencies": {
